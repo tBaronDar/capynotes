@@ -1,3 +1,4 @@
+//Initialize the tRPC on the server
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 
@@ -7,3 +8,4 @@ const t = initTRPC.create({
 
 export const router = t.router;
 export const publicProcedure = t.procedure;
+export const createCallerfactory = t.createCallerFactory;
