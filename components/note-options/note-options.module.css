@@ -1,0 +1,15 @@
+.note-options {
+	padding: 0.5rem;
+	background-color: azure;
+}
+
+.note-options ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.note-options a {
+	text-decoration: none;
+	color: #000;
+}

@@ -1,0 +1,8 @@
+.main-navigation {
+	background-image: linear-gradient(to right, orangered, orange);
+	grid-column: 1/-1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+}
