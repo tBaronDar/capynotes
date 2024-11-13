@@ -1,17 +1,28 @@
 .icon {
-	stroke: blue;
-	width: 1.5rem;
-	height: 1.5rem;
-	object-fit: cover;
+  stroke: blue;
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: cover;
 }
 
 .main {
-	height: 100vh;
-	display: grid;
-	grid-template-rows: 10vh 1fr;
-	grid-template-columns: 1fr 1.5fr 1fr;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 10vh 1fr;
+  grid-template-columns: 1fr 1.5fr 1fr;
 }
 
 .main aside {
-	grid-column: 1;
+  grid-column: 1;
+}
+
+.auxilary {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 2rem auto;
+}
+
+.auxilary p {
+  font-size: 2rem;
+  font-style: italic;
 }
