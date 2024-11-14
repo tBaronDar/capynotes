@@ -1,17 +1,18 @@
 import React from "react";
 
-import Note from "./note-item";
+import NoteItem from "./note-item";
 
 import styles from "./note-list.module.css";
+import { Note } from "@prisma/client";
 
-export default function NoteList({ notes }: { notes: string[] }) {
-	return (
-		<ul className={styles.list}>
-			{notes?.map((item) => (
-				<li key={item}>
-					<Note data={item} />
-				</li>
-			))}
-		</ul>
-	);
+export default function NoteList({ initialData }: { initialData: Note[] }) {
+  return (
+    <ul className={styles.list}>
+      {initialData?.map((item) => (
+        <li key={item.id}>
+          <NoteItem data={item} />
+        </li>
+      ))}
+    </ul>
+  );
 }
