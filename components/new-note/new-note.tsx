@@ -48,7 +48,7 @@ export default function NewNote() {
 					}
 				/>
 			</div>
-			<textarea rows={10} />
+			<textarea rows={10} className={styles.content} />
 			<NewNoteControls />
 		</article>
 	);
