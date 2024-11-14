@@ -2,12 +2,21 @@
 import React, { useState } from "react";
 
 import styles from "./create-note.module.css";
+import { useStore } from "@/data/store";
 
 export default function CreateNoteBtn() {
 	const [isVisible, setIsVisible] = useState(false);
+	const setIsEditing = useStore((state) => state.setIsEditing);
+	const isEditing = useStore((state) => state.isEditing);
 
+	function newNoteHandler() {
+		setIsEditing(true);
+		setIsVisible(!isVisible);
+	}
+	console.log(isEditing);
 	return (
 		<div className={styles.container}>
+			{/* main add button */}
 			<button onClick={() => setIsVisible(!isVisible)}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +54,7 @@ export default function CreateNoteBtn() {
 
 			{/* New text note */}
 			{isVisible && (
-				<button>
+				<button onClick={newNoteHandler}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

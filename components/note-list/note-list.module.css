@@ -1,4 +1,6 @@
 .list {
+	grid-column: 2;
+	grid-row: 2/-1;
 	height: 100%;
 	overflow-y: scroll;
 	list-style: none;

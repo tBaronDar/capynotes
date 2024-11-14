@@ -16,8 +16,8 @@ export default async function MainNavigation() {
 				<Image
 					src={session.user.image}
 					alt={session.user.name}
-					width={24}
-					height={24}
+					width={32}
+					height={32}
 				/>
 			)}
 			<AuthControls />
