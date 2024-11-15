@@ -2,12 +2,12 @@
 import React, { useState } from "react";
 
 import styles from "./create-note.module.css";
-import { useStore } from "@/data/store";
+import { useNoteStore } from "@/data/store";
 
 export default function CreateNoteBtn() {
 	const [isVisible, setIsVisible] = useState(false);
-	const setIsEditing = useStore((state) => state.setIsEditing);
-	const isEditing = useStore((state) => state.isEditing);
+	const setIsEditing = useNoteStore((state) => state.setIsEditing);
+	const isEditing = useNoteStore((state) => state.isEditing);
 
 	function newNoteHandler() {
 		setIsEditing(true);

@@ -22,6 +22,6 @@ export interface NotesStore {
 
 //Users
 export interface UserStore {
-	user: User;
-	userProfile: Profile;
+	userData: User | null;
+	setUserData: (input: User) => void;
 }

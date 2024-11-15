@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useStore } from "@/data/store";
+import { useNoteStore } from "@/data/store";
 import NewNoteControls from "./new-note-controls";
 
 import styles from "./new-note.module.css";
 import { NoteMutation } from "@/data/types";
 
 export default function NewNote() {
-	const isEditing = useStore((state) => state.isEditing);
-	const setNewNote = useStore((state) => state.setNoteMutation);
+	const isEditing = useNoteStore((state) => state.isEditing);
+	const setNewNote = useNoteStore((state) => state.setNoteMutation);
 
-	const newNote = useStore((state) => state.noteMutation);
+	const newNote = useNoteStore((state) => state.noteMutation);
 
 	useEffect(() => {}, []);
 

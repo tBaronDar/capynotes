@@ -11,37 +11,32 @@ import NewNote from "@/components/new-note/new-note";
 import { Note } from "@prisma/client";
 
 export default async function HomePage() {
-  const session = await auth();
+	const session = await auth();
 
-  let notes: Note[];
-  if (session?.user) {
-    notes = await serverClient.getAllNotes();
-  } else {
-    return (
-      <main className={styles.main}>
-        <MainNavigation />
-        <div className={styles.auxilary}>
-          <p>Login in to see notes...</p>
-        </div>
-      </main>
-    );
-  }
+	let notes: Note[] | undefined;
+	if (session?.user) {
+		notes = await serverClient.getAllNotes();
+	} else {
+		notes = undefined;
+	}
 
-  return (
-    <main className={styles.main}>
-      <MainNavigation />
-      {session?.user && <NewNote />}
+	console.log(notes);
 
-      {session?.user && <Sidebar />}
+	return (
+		<main className={styles.main}>
+			<MainNavigation />
+			{session?.user && <NewNote />}
 
-      {session?.user && <NoteList initialData={notes} />}
+			{session?.user && <Sidebar />}
 
-      {!session?.user && (
-        <div className={styles.auxilary}>
-          <p>Login in to see notes...</p>
-        </div>
-      )}
-      {session?.user && <CreateNoteBtn />}
-    </main>
-  );
+			{session?.user && <NoteList initialData={notes} />}
+
+			{!session?.user && (
+				<div className={styles.auxilary}>
+					<p>Login in to see notes...</p>
+				</div>
+			)}
+			{session?.user && <CreateNoteBtn />}
+		</main>
+	);
 }

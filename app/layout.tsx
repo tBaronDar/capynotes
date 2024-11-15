@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import Provider from "./_trpc/Provider";
 
 import { Roboto, Inter } from "next/font/google";
@@ -23,7 +24,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<Provider>{children}</Provider>
+				<SessionProvider>
+					<Provider>{children}</Provider>
+				</SessionProvider>
 			</body>
 		</html>
 	);

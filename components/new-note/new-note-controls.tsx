@@ -3,10 +3,10 @@
 import React from "react";
 
 import styles from "./new-note-controls.module.css";
-import { useStore } from "@/data/store";
+import { useNoteStore } from "@/data/store";
 
 export default function NewNoteControls() {
-	const setIsEditing = useStore((state) => state.setIsEditing);
+	const setIsEditing = useNoteStore((state) => state.setIsEditing);
 	return (
 		<div className={styles.controls}>
 			<button>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { NoteTypesProps } from "@/data/types";
 
 import styles from "./sidebar-item.module.css";
-import { useStore } from "@/data/store";
+import { useNoteStore } from "@/data/store";
 
 export default function NoteTypes({ title, list }: NoteTypesProps) {
 	const [selected, setSelected] = useState<number>();
@@ -13,8 +13,8 @@ export default function NoteTypes({ title, list }: NoteTypesProps) {
 		[]
 	);
 
-	const setNoteMutation = useStore((state) => state.setNoteMutation);
-	const noteMutation = useStore((state) => state.noteMutation);
+	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
+	const noteMutation = useNoteStore((state) => state.noteMutation);
 
 	const selectionHelperArray: (string | undefined)[] = [];
 
