@@ -26,7 +26,7 @@ export default function NewNote() {
 				<input
 					placeholder="Title..."
 					type="text"
-					value={newNote?.title}
+					value={newNote?.title || ""}
 					onChange={(event) =>
 						setNewNote({ ...newNote, title: event.currentTarget.value })
 					}
@@ -34,7 +34,7 @@ export default function NewNote() {
 				<input
 					placeholder="Subject..."
 					type="text"
-					value={newNote?.subject}
+					value={newNote?.subject || ""}
 					onChange={(event) =>
 						setNewNote({ ...newNote, subject: event.currentTarget.value })
 					}
@@ -42,9 +42,9 @@ export default function NewNote() {
 				<input
 					placeholder="Type..."
 					type="text"
-					value={newNote?.type}
+					value={newNote?.type || ""}
 					onChange={(event) =>
-						setNewNote({ ...newNote, subject: event.currentTarget.value })
+						setNewNote({ ...newNote, type: event.currentTarget.value })
 					}
 				/>
 			</div>

@@ -4,13 +4,36 @@ import React from "react";
 
 import styles from "./new-note-controls.module.css";
 import { useNoteStore } from "@/data/store";
+import { trpc } from "@/app/_trpc/client";
+import { useSession } from "next-auth/react";
 
 export default function NewNoteControls() {
+	const trpcUtils = trpc.useUtils();
 	const setIsEditing = useNoteStore((state) => state.setIsEditing);
+	const noteInputData = useNoteStore((state) => state.noteMutation);
+
+	const createNote = trpc.createNote.useMutation({
+		onSettled: () => trpcUtils.getAllNotes.invalidate(),
+	});
+
+	const { data: sessionData } = useSession();
+
+	const createNoteHandler = () => {
+		if (sessionData?.user) {
+			createNote.mutate({
+				title: noteInputData?.title!,
+				subject: noteInputData?.subject!,
+				type: noteInputData?.type!,
+				content: noteInputData?.content!,
+				authorId: sessionData?.user?.id!,
+			});
+		}
+	};
+
 	return (
 		<div className={styles.controls}>
-			<button>
-				{/* edit btn */}
+			<button onClick={createNoteHandler}>
+				{/* save btn */}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
