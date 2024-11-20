@@ -13,7 +13,7 @@ export default function CreateNoteBtn() {
 		setIsEditing(true);
 		setIsVisible(!isVisible);
 	}
-	console.log(isEditing);
+
 	return (
 		<div className={styles.container}>
 			{/* main add button */}

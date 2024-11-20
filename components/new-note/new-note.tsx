@@ -19,7 +19,6 @@ export default function NewNote() {
 		return;
 	}
 
-	console.log(newNote);
 	return (
 		<article className={styles["new-note"]}>
 			<div className={styles.headline}>

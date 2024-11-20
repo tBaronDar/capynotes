@@ -28,7 +28,7 @@ export default async function HomePage() {
 
 		notes = await serverClient.getAllNotes();
 	}
-	console.log(user);
+	// console.log(user);
 
 	return (
 		<main className={styles.main}>

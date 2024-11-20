@@ -34,13 +34,13 @@ export const appRouter = router({
 	getUserData: publicProcedure
 		.input(
 			z.object({
-				id: z.string(),
+				email: z.string(),
 			})
 		)
-		.query(
-			async ({ input }) =>
-				await prisma.user.findUnique({ where: { id: input.id } })
-		),
+		.query(async ({ input }) => {
+			return await prisma.user.findUnique({ where: { email: input.email } });
+		}),
+	getUserlist: publicProcedure.query(async () => await prisma.user.findMany()),
 
 	createUser: publicProcedure
 		.input(
