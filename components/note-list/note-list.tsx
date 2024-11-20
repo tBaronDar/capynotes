@@ -4,51 +4,50 @@ import React, { useEffect } from "react";
 import NoteItem from "./note-item";
 
 import styles from "./note-list.module.css";
-import { Note } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import { Note, User } from "@prisma/client";
+import { useNoteStore, useUserStore } from "@/data/store";
 import { trpc } from "@/app/_trpc/client";
-import { useUserStore } from "@/data/store";
-import { createId } from "@paralleldrive/cuid2";
 
 export default function NoteList({
 	initialData,
+	userData,
 }: {
 	initialData: Note[] | undefined;
+	userData: User | undefined;
 }) {
-	const trpcUtils = trpc.useUtils();
-	const { data: sessionData } = useSession();
 	const setUser = useUserStore((state) => state.setUserData);
+	const setNotes = useNoteStore((state) => state.setNotes);
+	const notes = useNoteStore((state) => state.notes);
 
-	const createUser = trpc.createUser.useMutation({
-		onSettled: () => {
-			trpcUtils.getAllNotes.invalidate();
-		},
+	const getUserDb = trpc.getUserData.useQuery({ id: userData!.id });
+	const trpcUtils = trpc.useUtils();
+
+	const createNewUser = trpc.createUser.useMutation({
+		onSettled: () => trpcUtils.getAllNotes.invalidate(),
 	});
 
-	let userId: string;
+	useEffect(() => {
+		if (initialData && userData) {
+			setNotes(initialData);
 
-	if (sessionData?.user?.id) {
-		userId = sessionData?.user?.id;
-	} else {
-		userId = createId();
-	}
-	const getUser = trpc.getUserData.useQuery({ id: userId });
-
-	if (getUser.data && getUser) {
-		setUser(getUser.data);
-	} else {
-		createUser.mutate({
-			name: sessionData?.user?.name!,
-			email: sessionData?.user?.email!,
-			id: userId,
-			profilePic: sessionData?.user?.image!,
-		});
-	}
+			if (getUserDb.data!.id === userData.id) {
+				setUser(userData);
+			} else {
+				createNewUser.mutate({
+					email: userData.email,
+					name: userData.name,
+					id: userData.id,
+					profilePic: userData.profilePic!,
+				});
+				setUser(userData);
+			}
+		}
+	}, [initialData, initialData]);
 
 	// console.log("get userdata", getUser.data);
 	return (
 		<ul className={styles.list}>
-			{initialData?.map((item) => (
+			{notes.map((item) => (
 				<li key={item.id}>
 					<NoteItem data={item} />
 				</li>

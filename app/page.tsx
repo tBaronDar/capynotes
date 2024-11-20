@@ -8,19 +8,27 @@ import CreateNoteBtn from "@/components/controls/create-note";
 import { auth } from "@/auth";
 import Sidebar from "@/components/sidebar/sidebar";
 import NewNote from "@/components/new-note/new-note";
-import { Note } from "@prisma/client";
+import { Note, User } from "@prisma/client";
+
+import { createId } from "@paralleldrive/cuid2";
 
 export default async function HomePage() {
 	const session = await auth();
 
+	let user: User | undefined;
 	let notes: Note[] | undefined;
 	if (session?.user) {
-		notes = await serverClient.getAllNotes();
-	} else {
-		notes = undefined;
-	}
+		// let userCheck = serverClient.createUser(undefined)
+		user = {
+			name: session.user.name || "",
+			email: session.user.email || "",
+			profilePic: session.user.image || null,
+			id: session.user.id || createId(),
+		};
 
-	console.log(notes);
+		notes = await serverClient.getAllNotes();
+	}
+	console.log(user);
 
 	return (
 		<main className={styles.main}>
@@ -29,7 +37,7 @@ export default async function HomePage() {
 
 			{session?.user && <Sidebar />}
 
-			{session?.user && <NoteList initialData={notes} />}
+			{session?.user && <NoteList initialData={notes} userData={user} />}
 
 			{!session?.user && (
 				<div className={styles.auxilary}>
