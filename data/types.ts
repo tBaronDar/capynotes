@@ -1,8 +1,8 @@
-import { Note, User, Profile } from "@prisma/client";
+import { Note, User } from "@prisma/client";
 
-export interface NoteTypesProps {
-	title: string;
-	list: string[];
+export interface NotesMetaProps {
+	metaData: string;
+	noteId: string;
 }
 
 export interface NoteMutation extends Partial<Note> {}

@@ -15,40 +15,50 @@ import { createId } from "@paralleldrive/cuid2";
 export default async function HomePage() {
 	const session = await auth();
 
-	let user: User | undefined;
-	let notes: Note[] | undefined;
-	if (session?.user) {
-		const sessionUser = {
-			name: session.user.name || "",
-			email: session.user.email || "",
-			profilePic: session.user.image || "",
-		};
-
-		const userDb = await serverClient.getUserData({ email: sessionUser.email });
-
-		if (userDb) {
-			user = {
-				name: userDb.name,
-				email: userDb.email,
-				profilePic: userDb.profilePic,
-				id: userDb.id,
-			};
-		} else {
-			user = {
-				name: sessionUser.name,
-				email: sessionUser.email,
-				profilePic: sessionUser.profilePic,
-				id: createId(),
-			};
-			serverClient.createUser({
-				name: user.name,
-				email: user.email,
-				profilePic: user.profilePic || "",
-				id: user.id,
-			});
-		}
-		notes = await serverClient.getAllNotes();
+	if (!session) {
+		return (
+			<main className={styles.main}>
+				<MainNavigation />
+				<div className={styles.auxilary}>
+					<p>Login in to see notes...</p>
+				</div>
+			</main>
+		);
 	}
+
+	const sessionUser = {
+		name: session.user?.name || "",
+		email: session.user?.email || "",
+		profilePic: session.user?.image || "",
+	};
+
+	const userDb = await serverClient.getUserData({ email: sessionUser.email });
+
+	let user: User;
+
+	if (userDb) {
+		user = {
+			name: userDb.name,
+			email: userDb.email,
+			profilePic: userDb.profilePic,
+			id: userDb.id,
+		};
+	} else {
+		user = {
+			name: sessionUser.name,
+			email: sessionUser.email,
+			profilePic: sessionUser.profilePic,
+			id: createId(),
+		};
+		serverClient.createUser({
+			name: user.name,
+			email: user.email,
+			profilePic: user.profilePic || "",
+			id: user.id,
+		});
+	}
+	const notes = await serverClient.getAllNotes({ authorId: user.id });
+
 	// console.log(user);
 
 	return (
@@ -58,13 +68,8 @@ export default async function HomePage() {
 
 			{session?.user && <Sidebar />}
 
-			{session?.user && <NoteList initialData={notes} userData={user} />}
+			{session?.user && <NoteList initialNotes={notes} userData={user} />}
 
-			{!session?.user && (
-				<div className={styles.auxilary}>
-					<p>Login in to see notes...</p>
-				</div>
-			)}
 			{session?.user && <CreateNoteBtn />}
 		</main>
 	);

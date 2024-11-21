@@ -15,7 +15,7 @@ export default function NewNoteControls() {
 	const noteInputData = useNoteStore((state) => state.noteMutation);
 
 	const createNote = trpc.createNote.useMutation({
-		onSettled: () => trpcUtils.getAllNotes.invalidate(),
+		onSettled: () => trpcUtils.getAllNotes.refetch(),
 		onSuccess: () =>
 			setNoteData({
 				...noteInputData,

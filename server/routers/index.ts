@@ -6,7 +6,13 @@ import prisma from "@/prisma/client";
 
 export const appRouter = router({
 	//Notes
-	getAllNotes: publicProcedure.query(async () => await prisma.note.findMany()),
+	getAllNotes: publicProcedure
+		.input(z.object({ authorId: z.string() }))
+		.query(async ({ input }) => {
+			return await prisma.note.findMany({
+				where: { authorId: input.authorId },
+			});
+		}),
 
 	createNote: publicProcedure
 		.input(

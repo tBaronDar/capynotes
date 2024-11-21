@@ -8,3 +8,12 @@
 	flex-direction: column;
 	gap: 2rem;
 }
+
+.empty-list {
+	grid-column: 2;
+	grid-row: 2/-1;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	margin: 3rem auto;
+}
