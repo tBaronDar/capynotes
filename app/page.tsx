@@ -18,14 +18,35 @@ export default async function HomePage() {
 	let user: User | undefined;
 	let notes: Note[] | undefined;
 	if (session?.user) {
-		// let userCheck = serverClient.createUser(undefined)
-		user = {
+		const sessionUser = {
 			name: session.user.name || "",
 			email: session.user.email || "",
-			profilePic: session.user.image || null,
-			id: session.user.id || createId(),
+			profilePic: session.user.image || "",
 		};
 
+		const userDb = await serverClient.getUserData({ email: sessionUser.email });
+
+		if (userDb) {
+			user = {
+				name: userDb.name,
+				email: userDb.email,
+				profilePic: userDb.profilePic,
+				id: userDb.id,
+			};
+		} else {
+			user = {
+				name: sessionUser.name,
+				email: sessionUser.email,
+				profilePic: sessionUser.profilePic,
+				id: createId(),
+			};
+			serverClient.createUser({
+				name: user.name,
+				email: user.email,
+				profilePic: user.profilePic || "",
+				id: user.id,
+			});
+		}
 		notes = await serverClient.getAllNotes();
 	}
 	// console.log(user);

@@ -13,7 +13,7 @@ export default function NewNote() {
 
 	const newNote = useNoteStore((state) => state.noteMutation);
 
-	useEffect(() => {}, []);
+	// useEffect(() => {}, []);
 
 	if (!isEditing) {
 		return;
@@ -38,16 +38,24 @@ export default function NewNote() {
 						setNewNote({ ...newNote, subject: event.currentTarget.value })
 					}
 				/>
-				<input
+				<p>{newNote?.type}</p>
+				{/* <input
 					placeholder="Type..."
 					type="text"
 					value={newNote?.type || ""}
 					onChange={(event) =>
 						setNewNote({ ...newNote, type: event.currentTarget.value })
 					}
-				/>
+				/> */}
 			</div>
-			<textarea rows={10} className={styles.content} />
+			<textarea
+				rows={10}
+				className={styles.content}
+				value={newNote?.content || ""}
+				onChange={(event) =>
+					setNewNote({ ...newNote, content: event.currentTarget.value })
+				}
+			/>
 			<NewNoteControls />
 		</article>
 	);

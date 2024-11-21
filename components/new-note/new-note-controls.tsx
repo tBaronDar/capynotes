@@ -5,31 +5,46 @@ import React from "react";
 import styles from "./new-note-controls.module.css";
 import { useNoteStore, useUserStore } from "@/data/store";
 import { trpc } from "@/app/_trpc/client";
-import { useSession } from "next-auth/react";
 
 export default function NewNoteControls() {
 	const trpcUtils = trpc.useUtils();
 	const setIsEditing = useNoteStore((state) => state.setIsEditing);
 	const userData = useUserStore((state) => state.userData);
+
+	const setNoteData = useNoteStore((state) => state.setNoteMutation);
 	const noteInputData = useNoteStore((state) => state.noteMutation);
 
 	const createNote = trpc.createNote.useMutation({
 		onSettled: () => trpcUtils.getAllNotes.invalidate(),
+		onSuccess: () =>
+			setNoteData({
+				...noteInputData,
+				title: "",
+				content: "",
+				subject: "",
+			}),
 	});
 
 	const createNoteHandler = () => {
-		createNote.mutate({
-			title: noteInputData?.title!,
-			subject: noteInputData?.subject!,
-			type: noteInputData?.type!,
-			content: noteInputData?.content!,
-			authorId: userData!.id,
-		});
+		if (userData && noteInputData) {
+			const { title, subject, type, content } = noteInputData;
+			const userId = userData.id;
+
+			if (title && subject && type && content) {
+				createNote.mutate({
+					title,
+					subject,
+					type,
+					content,
+					authorId: userId,
+				});
+			}
+		}
 	};
 
 	return (
 		<div className={styles.controls}>
-			<button onClick={createNoteHandler}>
+			<button onClick={createNoteHandler} disabled={createNote.isPending}>
 				{/* save btn */}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

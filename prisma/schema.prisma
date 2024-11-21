@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum NoteType {
+  TEXTNOTE
+  CHECKLIST
+}
+
 
 model Note {
   id        String      @id @default(cuid())
@@ -20,7 +25,7 @@ model Note {
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
   subject   String
-  type      String  
+  type      NoteType  
   starred   Boolean  @default(false)
   content   String   @db.Text
   author    User     @relation(fields: [authorId], references: [id])

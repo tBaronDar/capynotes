@@ -19,32 +19,10 @@ export default function NoteList({
 	const setNotes = useNoteStore((state) => state.setNotes);
 	const notes = useNoteStore((state) => state.notes);
 
-	const trpcUtils = trpc.useUtils();
-
-	const createNewUser = trpc.createUser.useMutation({
-		onSettled: () => trpcUtils.getAllNotes.invalidate(),
-	});
-	console.log("the user id is", userData?.id);
-
-	const getUserDb = trpc.getUserData.useQuery({ email: userData!.email });
-
-	const userDb = getUserDb.data;
-	console.log(userDb);
 	useEffect(() => {
 		if (initialData && userData) {
 			setNotes(initialData);
-
-			if (userDb?.email === userData.email) {
-				setUser(userData);
-			} else {
-				createNewUser.mutate({
-					email: userData.email,
-					name: userData.name,
-					id: userData.id,
-					profilePic: userData.profilePic!,
-				});
-				setUser(userData);
-			}
+			setUser(userData);
 		}
 	}, [initialData, userData]);
 

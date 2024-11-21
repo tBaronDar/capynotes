@@ -3,13 +3,18 @@ import React, { useState } from "react";
 
 import styles from "./create-note.module.css";
 import { useNoteStore } from "@/data/store";
+import { NoteType } from "@prisma/client";
 
 export default function CreateNoteBtn() {
 	const [isVisible, setIsVisible] = useState(false);
 	const setIsEditing = useNoteStore((state) => state.setIsEditing);
 	const isEditing = useNoteStore((state) => state.isEditing);
 
-	function newNoteHandler() {
+	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
+	const noteMutation = useNoteStore((state) => state.noteMutation);
+
+	function newNoteHandler(noteType: NoteType) {
+		setNoteMutation({ ...noteMutation, type: noteType });
 		setIsEditing(true);
 		setIsVisible(!isVisible);
 	}
@@ -35,7 +40,7 @@ export default function CreateNoteBtn() {
 
 			{/* New checklist note */}
 			{isVisible && (
-				<button>
+				<button onClick={newNoteHandler.bind(null, "CHECKLIST")}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -54,7 +59,7 @@ export default function CreateNoteBtn() {
 
 			{/* New text note */}
 			{isVisible && (
-				<button onClick={newNoteHandler}>
+				<button onClick={newNoteHandler.bind(null, "TEXTNOTE")}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

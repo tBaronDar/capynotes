@@ -12,14 +12,14 @@ export const appRouter = router({
 		.input(
 			z.object({
 				title: z.string(),
-				type: z.string(),
+				type: z.enum(["CHECKLIST", "TEXTNOTE"]),
 				content: z.string(),
 				subject: z.string(),
 				authorId: z.string(),
 			})
 		)
-		.mutation(({ input }) =>
-			prisma.note.create({
+		.mutation(({ input }) => {
+			return prisma.note.create({
 				data: {
 					title: input.title,
 					type: input.type,
@@ -27,8 +27,8 @@ export const appRouter = router({
 					content: input.content,
 					authorId: input.authorId,
 				},
-			})
-		),
+			});
+		}),
 
 	//Users
 	getUserData: publicProcedure
