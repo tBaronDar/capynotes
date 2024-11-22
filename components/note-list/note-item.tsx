@@ -12,7 +12,7 @@ export default function NoteItem({ note }: { note: Note }) {
 				<p>{note.subject}</p>
 			</div>
 			<p className={styles["note-text"]}>{note.content}</p>
-			<ItemControls />
+			<ItemControls note={note} />
 		</article>
 	);
 }

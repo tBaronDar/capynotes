@@ -1,11 +1,47 @@
+"use client";
+
 import React from "react";
 
 import styles from "./note-item-controls.module.css";
+import { trpc } from "@/app/_trpc/client";
+import { useNoteStore } from "@/data/store";
+import { Note } from "@prisma/client";
 
-export default function ItemControls() {
+export default function ItemControls({ note }: { note: Note }) {
+	const setIsEditing = useNoteStore((state) => state.setIsEditing);
+
+	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
+	const noteMutation = useNoteStore((state) => state.noteMutation);
+
+	const trpcUtils = trpc.useUtils();
+	const deleteNote = trpc.deleteNote.useMutation({
+		onSuccess: () => trpcUtils.getAllNotes.refetch(),
+	});
+
+	const deleteNoteHandler = () => {
+		//ask before deletion
+		const confirmation = window.confirm(
+			"Are you sure you want to delete this note?"
+		);
+
+		if (confirmation) {
+			deleteNote.mutate({ noteId: note.id });
+		}
+	};
+
+	const editNoteHandler = () => {
+		setNoteMutation({
+			...noteMutation,
+			title: note.title,
+			type: note.type,
+			content: note.content,
+		});
+		setIsEditing(true);
+	};
+
 	return (
 		<div className={styles.controls}>
-			<button>
+			<button onClick={editNoteHandler}>
 				{/* edit btn */}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +75,7 @@ export default function ItemControls() {
 				</svg>
 			</button>
 
-			<button>
+			<button onClick={deleteNoteHandler}>
 				{/* btn delete  */}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
