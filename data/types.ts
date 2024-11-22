@@ -7,6 +7,11 @@ export interface NotesMetaProps {
 
 export interface NoteMutation extends Partial<Note> {}
 
+export interface NoteQuery {
+	subject?: string;
+	type?: string;
+}
+
 //Stores
 //Notes
 export interface NotesStore {
@@ -16,8 +21,11 @@ export interface NotesStore {
 	isEditing: boolean;
 	setIsEditing: (input: boolean) => void;
 
-	noteMutation: NoteMutation | undefined;
+	noteMutation: NoteMutation;
 	setNoteMutation: (input: NoteMutation) => void;
+
+	noteQuery: NoteQuery | undefined;
+	setNoteQuery: (input: NoteQuery) => void;
 }
 
 //Users

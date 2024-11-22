@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import NoteTypes from "./sidebar-item";
+import NoteQueries from "./sidebar-item";
 
 import styles from "./sidebar.module.css";
 import { useNoteStore } from "@/data/store";
@@ -24,6 +24,7 @@ export default function Sidebar() {
 		return noteSubjects.push({ metaData: note.subject, noteId: note.id });
 	});
 
+	//if no notes...
 	if (noteSubjects.length < 1 || noteTypes.length < 1) {
 		console.log("daddsa");
 		return (
@@ -34,8 +35,12 @@ export default function Sidebar() {
 	}
 	return (
 		<aside className={styles.sidebar}>
-			<NoteTypes title="Note Subjects" data={noteSubjects} key={1} />
-			{/* <NoteTypes title="Note Types" list={noteTypes} /> */}
+			<NoteQueries
+				title="Note Subjects"
+				queryType={"subject"}
+				data={noteSubjects}
+			/>
+			<NoteQueries title="Note Types" queryType={"type"} data={noteTypes} />
 			{/* <NoteTypes title="Starred Notes" data={["Checklist", "Text"]} key={2} /> */}
 		</aside>
 	);

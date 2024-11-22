@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import NoteItem from "./note-item";
 
 import styles from "./note-list.module.css";
-import { User } from "@prisma/client";
+import { Note, User } from "@prisma/client";
 import { useNoteStore, useUserStore } from "@/data/store";
 import { trpc } from "@/app/_trpc/client";
 import { serverClient } from "@/app/_trpc/serverClient";
@@ -16,9 +16,12 @@ export default function NoteList({
 	initialNotes: Awaited<ReturnType<(typeof serverClient)["getAllNotes"]>>;
 	userData: User | undefined;
 }) {
+	const [notesToShow, setNotesToShow] = useState<Note[]>([]);
+
 	const setUser = useUserStore((state) => state.setUserData);
 	const setNotes = useNoteStore((state) => state.setNotes);
 	const notes = useNoteStore((state) => state.notes);
+	const queryTerm = useNoteStore((state) => state.noteQuery);
 
 	const getNotes = trpc.getAllNotes.useQuery(
 		{ authorId: userData?.id! },
@@ -35,10 +38,30 @@ export default function NoteList({
 			id: userData?.id!,
 			profilePic: userData?.profilePic!,
 		});
-	}, [notesDb, userData]);
+
+		//filter notes according to aside input
+		if (queryTerm) {
+			const { subject, type } = queryTerm;
+
+			let arrayHelper1;
+			if (subject) {
+				arrayHelper1 = notesDb.filter((note) => subject === note.subject);
+			} else {
+				arrayHelper1 = notesDb;
+			}
+
+			let arrayHelper2;
+			if (type && arrayHelper1) {
+				arrayHelper2 = arrayHelper1.filter((note) => type === note.type);
+			} else {
+				arrayHelper2 = arrayHelper1;
+			}
+			setNotesToShow(arrayHelper2 || notesDb);
+		}
+	}, [notesDb, userData, queryTerm]);
 
 	// console.log("get userdata", getUser.data);
-	if (notes.length < 1) {
+	if (notesToShow.length < 1) {
 		return (
 			<ul className={styles["empty-list"]}>
 				<li>
@@ -49,7 +72,7 @@ export default function NoteList({
 	}
 	return (
 		<ul className={styles.list}>
-			{notes.map((item) => (
+			{notesToShow.map((item) => (
 				<li key={item.id}>
 					<NoteItem note={item} />
 				</li>

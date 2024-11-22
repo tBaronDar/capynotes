@@ -2,17 +2,20 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { NotesMetaProps } from "@/data/types";
+import { NoteQuery, NotesMetaProps } from "@/data/types";
 
 import styles from "./sidebar-item.module.css";
 import { useNoteStore } from "@/data/store";
+import { Note } from "@prisma/client";
 
-export default function NoteTypes({
+export default function NoteQueries({
 	title,
 	data,
+	queryType,
 }: {
 	title: string;
 	data: NotesMetaProps[];
+	queryType: keyof NoteQuery;
 }) {
 	const [selected, setSelected] = useState<number>();
 	const [selectedArray, setSelectedArray] = useState<(string | undefined)[]>(
@@ -23,19 +26,21 @@ export default function NoteTypes({
 	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
 	const noteMutation = useNoteStore((state) => state.noteMutation);
 
+	const setQuery = useNoteStore((state) => state.setNoteQuery);
+	const noteQuery = useNoteStore((state) => state.noteQuery);
+
 	const selectionHelperArray: (string | undefined)[] = [];
 	const uniqueDataHelperArray: string[] = [];
 
 	useEffect(() => {
-		console.log("data", data);
 		data.forEach((item) => {
-			if (data.indexOf(item) === -1) {
-				console.log("safafafafafafafa");
-				uniqueDataHelperArray.push(item.metaData);
+			if (uniqueDataHelperArray.indexOf(item.metaData) === -1) {
+				return uniqueDataHelperArray.push(item.metaData);
 			}
 		});
+
 		setUniqueDataArray(uniqueDataHelperArray);
-		console.log("in effect", uniqueDataHelperArray);
+
 		uniqueDataHelperArray.forEach((item) => {
 			if (uniqueDataHelperArray.indexOf(item) === selected) {
 				selectionHelperArray.push("selected-item");
@@ -54,11 +59,23 @@ export default function NoteTypes({
 		}
 		setNoteMutation({
 			...noteMutation,
-			subject: data[selectedListItem].metaData,
+			[queryType]: data[selectedListItem].metaData,
 		});
+
+		//set query state here
+		if (noteQuery) {
+			if (noteQuery[queryType] === data[selectedListItem].metaData) {
+				setQuery({ ...noteQuery, [queryType]: undefined });
+			} else {
+				setQuery({
+					...noteQuery,
+					[queryType]: data[selectedListItem].metaData,
+				});
+			}
+		}
 	}
 
-	console.log("Unique array", uniqueDataArray);
+	// console.log("Unique array", uniqueDataArray);
 	return (
 		<div className={styles["note-options"]}>
 			<h3>{title}</h3>

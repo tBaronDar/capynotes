@@ -16,13 +16,15 @@ export default function NewNoteControls() {
 
 	const createNote = trpc.createNote.useMutation({
 		onSettled: () => trpcUtils.getAllNotes.refetch(),
-		onSuccess: () =>
+		onSuccess: () => {
 			setNoteData({
 				...noteInputData,
 				title: "",
 				content: "",
 				subject: "",
-			}),
+			});
+			setIsEditing(false);
+		},
 	});
 
 	const createNoteHandler = () => {
