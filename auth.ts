@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import LinkedIn from "next-auth/providers/linkedin";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authOptions = {
 	providers: [
 		GitHub({
 			clientId: process.env.AUTH_GITHUB_ID,
@@ -14,9 +14,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 		}),
 	],
 	callbacks: {
-		async redirect({ url, baseUrl }) {
+		async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
 			console.log("Redirect ", url);
 			return baseUrl;
 		},
 	},
-});
+};
+
+export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
