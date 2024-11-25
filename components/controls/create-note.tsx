@@ -8,7 +8,6 @@ import { NoteType } from "@prisma/client";
 export default function CreateNoteBtn() {
 	const [isVisible, setIsVisible] = useState(false);
 	const setIsEditing = useNoteStore((state) => state.setIsEditing);
-	const isEditing = useNoteStore((state) => state.isEditing);
 
 	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
 	const noteMutation = useNoteStore((state) => state.noteMutation);
@@ -26,7 +25,9 @@ export default function CreateNoteBtn() {
 	return (
 		<div className={styles.container}>
 			{/* main add button */}
-			<button onClick={() => setIsVisible(!isVisible)}>
+			<button
+				onClick={() => setIsVisible(!isVisible)}
+				className={styles["new-button"]}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -44,7 +45,9 @@ export default function CreateNoteBtn() {
 
 			{/* New checklist note */}
 			{isVisible && (
-				<button onClick={newNoteHandler.bind(null, "CHECKLIST")}>
+				<button
+					onClick={newNoteHandler.bind(null, "CHECKLIST")}
+					className={styles["sub-button"]}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -63,7 +66,9 @@ export default function CreateNoteBtn() {
 
 			{/* New text note */}
 			{isVisible && (
-				<button onClick={newNoteHandler.bind(null, "TEXTNOTE")}>
+				<button
+					onClick={newNoteHandler.bind(null, "TEXTNOTE")}
+					className={styles["sub-button"]}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

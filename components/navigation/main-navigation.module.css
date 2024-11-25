@@ -1,5 +1,9 @@
 .main-navigation {
-	background-image: linear-gradient(to right, orangered, orange);
+	background-image: linear-gradient(
+		to right,
+		var(--main-yellow-color),
+		var(--secondary-yellow-color)
+	);
 	grid-column: 1/-1;
 	display: flex;
 	justify-content: space-between;
@@ -9,4 +13,11 @@
 
 .main-navigation img {
 	border-radius: 50%;
+}
+
+.controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
 }

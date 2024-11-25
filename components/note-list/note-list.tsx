@@ -56,6 +56,17 @@ export default function NoteList({
 			} else {
 				arrayHelper2 = arrayHelper1;
 			}
+
+			arrayHelper2.sort((a, b) => {
+				const dateA = new Date(a.updatedAt).getTime();
+				const dateB = new Date(b.updatedAt).getTime();
+				return dateB - dateA;
+			});
+			notesDb.sort((a, b) => {
+				const dateA = new Date(a.updatedAt).getTime();
+				const dateB = new Date(b.updatedAt).getTime();
+				return dateB - dateA;
+			});
 			setNotesToShow(arrayHelper2 || notesDb);
 		}
 	}, [notesDb, userData, queryTerm]);

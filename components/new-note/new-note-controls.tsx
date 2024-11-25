@@ -62,7 +62,6 @@ export default function NewNoteControls() {
 			const { title, subject, content, id } = noteInputData;
 
 			if (title && subject && content && id) {
-				console.log("in the handler");
 				updateNote.mutate({
 					id,
 					content,

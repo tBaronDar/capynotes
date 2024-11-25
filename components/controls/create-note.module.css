@@ -2,11 +2,24 @@
 	grid-column: 3;
 	display: flex;
 	flex-direction: row-reverse;
+	width: 100%;
+	height: fit-content;
+}
+
+.new-button {
+	width: 6rem;
+	height: 6rem;
 }
 
 .icon {
 	width: 6rem;
 	height: 6rem;
+}
+
+.sub-button {
+	align-self: center;
+	width: 3rem;
+	height: 3rem;
 }
 
 .icon-sm {
