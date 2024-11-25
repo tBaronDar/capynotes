@@ -33,8 +33,10 @@ export default function ItemControls({ note }: { note: Note }) {
 		setNoteMutation({
 			...noteMutation,
 			title: note.title,
-			type: note.type,
+			subject: note.subject,
 			content: note.content,
+			id: note.id,
+			isNewNote: false,
 		});
 		setIsEditing(true);
 	};

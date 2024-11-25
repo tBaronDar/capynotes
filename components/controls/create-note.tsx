@@ -14,7 +14,11 @@ export default function CreateNoteBtn() {
 	const noteMutation = useNoteStore((state) => state.noteMutation);
 
 	function newNoteHandler(noteType: NoteType) {
-		setNoteMutation({ ...noteMutation, type: noteType });
+		setNoteMutation({
+			...noteMutation,
+			type: noteType,
+			isNewNote: true,
+		});
 		setIsEditing(true);
 		setIsVisible(!isVisible);
 	}

@@ -5,15 +5,12 @@ import { useNoteStore } from "@/data/store";
 import NewNoteControls from "./new-note-controls";
 
 import styles from "./new-note.module.css";
-import { NoteMutation } from "@/data/types";
 
 export default function NewNote() {
 	const isEditing = useNoteStore((state) => state.isEditing);
 	const setNewNote = useNoteStore((state) => state.setNoteMutation);
 
 	const newNote = useNoteStore((state) => state.noteMutation);
-
-	// useEffect(() => {}, []);
 
 	if (!isEditing) {
 		return;

@@ -11,7 +11,9 @@ export const useNoteStore = create<NotesStore>((set) => ({
 	setIsEditing: (input) => set(() => ({ isEditing: input })),
 
 	//state of the form
-	noteMutation: {},
+	noteMutation: {
+		isNewNote: true,
+	},
 	setNoteMutation: (input) => set(() => ({ noteMutation: input })),
 
 	noteQuery: { subject: undefined, type: undefined, test: "" },

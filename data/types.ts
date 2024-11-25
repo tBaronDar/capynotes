@@ -5,7 +5,9 @@ export interface NotesMetaProps {
 	noteId: string;
 }
 
-export interface NoteMutation extends Partial<Note> {}
+export interface NoteMutation extends Partial<Note> {
+	isNewNote: boolean;
+}
 
 export interface NoteQuery {
 	subject?: string;

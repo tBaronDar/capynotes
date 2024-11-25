@@ -36,6 +36,28 @@ export const appRouter = router({
 			});
 		}),
 
+	updateNote: publicProcedure
+		.input(
+			z.object({
+				title: z.string(),
+
+				content: z.string(),
+				subject: z.string(),
+
+				id: z.string(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			return await prisma.note.update({
+				where: { id: input.id },
+				data: {
+					title: input.title,
+					subject: input.subject,
+					content: input.content,
+				},
+			});
+		}),
+
 	deleteNote: publicProcedure
 		.input(
 			z.object({
