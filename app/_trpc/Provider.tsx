@@ -6,13 +6,17 @@ import SuperJSON from "superjson";
 
 import { trpc } from "./client";
 
+//change to select enviroment
+const prodUrl = process.env.NEXTAUTH_URL + "/api/trpc";
+const devUrl = "http://localhost:3000/api/trpc";
+
 export default function Provider({ children }: { children: React.ReactNode }) {
 	const [queryClient] = useState(() => new QueryClient({}));
 	const [trpcClient] = useState(() =>
 		trpc.createClient({
 			links: [
 				httpBatchLink({
-					url: "http://localhost:3000/api/trpc",
+					url: prodUrl,
 					transformer: SuperJSON,
 				}),
 			],
