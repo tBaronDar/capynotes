@@ -7,7 +7,7 @@ import SuperJSON from "superjson";
 import { trpc } from "./client";
 
 //change to select enviroment
-const prodUrl = process.env.NEXTAUTH_URL + "/api/trpc";
+const prodUrl = "https://capynotes.vercel.app/api/trpc";
 const devUrl = "http://localhost:3000/api/trpc";
 
 export default function Provider({ children }: { children: React.ReactNode }) {
