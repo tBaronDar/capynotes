@@ -8,7 +8,7 @@ import { appRouter } from "@/server/routers";
 
 const handler = (req: Request) =>
 	fetchRequestHandler({
-		endpoint: "/api/trpc",
+		endpoint: process.env.NEXTAUTH_URL + "/api/trpc",
 		req,
 		router: appRouter,
 		createContext: (ctx) => ({ ...ctx }),
