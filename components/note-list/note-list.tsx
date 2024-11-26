@@ -41,6 +41,7 @@ export default function NoteList({
 
 		//filter notes according to aside input
 		if (queryTerm) {
+			// console.log(queryTerm);
 			const { subject, type } = queryTerm;
 
 			let arrayHelper1;
@@ -57,11 +58,13 @@ export default function NoteList({
 				arrayHelper2 = arrayHelper1;
 			}
 
+			//newer fist
 			arrayHelper2.sort((a, b) => {
 				const dateA = new Date(a.updatedAt).getTime();
 				const dateB = new Date(b.updatedAt).getTime();
 				return dateB - dateA;
 			});
+
 			notesDb.sort((a, b) => {
 				const dateA = new Date(a.updatedAt).getTime();
 				const dateB = new Date(b.updatedAt).getTime();

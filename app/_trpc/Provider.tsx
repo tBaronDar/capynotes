@@ -7,8 +7,14 @@ import SuperJSON from "superjson";
 import { trpc } from "./client";
 
 //change to select enviroment
-const prodUrl = "https://capynotes.vercel.app/api/trpc";
-const devUrl = "http://localhost:3000/api/trpc";
+let batchUrl: string;
+if (process.env.NODE_ENV === "development") {
+	batchUrl = "http://localhost:3000/api/trpc";
+} else if (process.env.NODE_ENV === "production") {
+	batchUrl = "https://capynotes.vercel.app/api/trpc";
+}
+
+// console.log(process.env.NODE_ENV, batchUrl!);
 
 export default function Provider({ children }: { children: React.ReactNode }) {
 	const [queryClient] = useState(() => new QueryClient({}));
@@ -16,7 +22,7 @@ export default function Provider({ children }: { children: React.ReactNode }) {
 		trpc.createClient({
 			links: [
 				httpBatchLink({
-					url: prodUrl,
+					url: batchUrl,
 					transformer: SuperJSON,
 				}),
 			],

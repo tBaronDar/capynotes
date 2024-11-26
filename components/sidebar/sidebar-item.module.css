@@ -1,13 +1,17 @@
 .note-options {
-	padding: 0.5rem;
-	max-width: 10rem;
+	padding: 1rem 0.5rem;
+	width: 15rem;
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	box-shadow: 0px 8px 8px 4px rgba(0, 0, 0, 0.1);
 }
 
+.note-options h3 {
+	color: var(--main-yellow-color);
+}
+
 .note-options ul {
-	margin-top: 0.75rem;
+	margin-top: 1rem;
 	display: flex;
 	flex-direction: column;
 	list-style: none;
@@ -17,6 +21,8 @@
 .note-options a {
 	text-decoration: none;
 	color: var(--main-typografy-color);
+	display: block;
+	text-transform: lowercase;
 }
 
 .selected-item {
@@ -24,5 +30,5 @@
 	padding-right: 1.5rem;
 	background-color: var(--main-yellow-color);
 	border-radius: 4px;
-	letter-spacing: 2px;
+	letter-spacing: 1px;
 }

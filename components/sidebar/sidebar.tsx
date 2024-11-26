@@ -14,7 +14,10 @@ export default function Sidebar() {
 	const noteTypes: NotesMetaProps[] = [];
 
 	notes.map((note) => {
-		return noteTypes.push({ metaData: note.type, noteId: note.id });
+		return noteTypes.push({
+			metaData: note.type,
+			noteId: note.id,
+		});
 	});
 
 	//Subjects array
@@ -26,7 +29,6 @@ export default function Sidebar() {
 
 	//if no notes...
 	if (noteSubjects.length < 1 || noteTypes.length < 1) {
-		console.log("daddsa");
 		return (
 			<aside>
 				<div></div>

@@ -16,7 +16,7 @@ export const useNoteStore = create<NotesStore>((set) => ({
 	},
 	setNoteMutation: (input) => set(() => ({ noteMutation: input })),
 
-	noteQuery: { subject: undefined, type: undefined, test: "" },
+	noteQuery: { subject: undefined, type: undefined },
 	setNoteQuery: (input) => set({ noteQuery: input }),
 }));
 

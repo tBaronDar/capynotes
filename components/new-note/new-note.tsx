@@ -35,7 +35,7 @@ export default function NewNote() {
 						setNewNote({ ...newNote, subject: event.currentTarget.value })
 					}
 				/>
-				<p>{newNote?.type}</p>
+				<p className={styles.type}>{newNote?.type}</p>
 				{/* <input
 					placeholder="Type..."
 					type="text"
