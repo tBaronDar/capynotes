@@ -7,10 +7,11 @@ import NoteList from "@/components/note-list/note-list";
 import CreateNoteBtn from "@/components/controls/create-note";
 import { auth } from "@/auth";
 import Sidebar from "@/components/sidebar/sidebar";
-import NewNote from "@/components/new-note/new-note";
-import { Note, User } from "@prisma/client";
+import NewTextnote from "@/components/new-note/new-textnote";
+import { User } from "@prisma/client";
 
 import { createId } from "@paralleldrive/cuid2";
+import NewChecklist from "@/components/new-note/new-checklist";
 
 export default async function HomePage() {
 	const session = await auth();
@@ -64,7 +65,8 @@ export default async function HomePage() {
 	return (
 		<main className={styles.main}>
 			<MainNavigation />
-			{session?.user && <NewNote />}
+			{session?.user && <NewTextnote />}
+			{session?.user && <NewChecklist />}
 
 			{session?.user && <Sidebar />}
 

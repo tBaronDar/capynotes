@@ -14,6 +14,11 @@ export interface NoteQuery {
 	type?: string;
 }
 
+export interface ArrayContent {
+	isChecked: boolean;
+	content: string;
+}
+
 //Stores
 //Notes
 export interface NotesStore {

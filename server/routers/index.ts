@@ -40,10 +40,8 @@ export const appRouter = router({
 		.input(
 			z.object({
 				title: z.string(),
-
 				content: z.string(),
 				subject: z.string(),
-
 				id: z.string(),
 			})
 		)

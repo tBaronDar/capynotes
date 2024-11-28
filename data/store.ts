@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { NotesStore, UserStore } from "./types";
-import { User } from "next-auth";
 
 export const useNoteStore = create<NotesStore>((set) => ({
 	notes: [],
@@ -10,9 +9,10 @@ export const useNoteStore = create<NotesStore>((set) => ({
 	isEditing: false,
 	setIsEditing: (input) => set(() => ({ isEditing: input })),
 
-	//state of the form
+	//state of the input form
 	noteMutation: {
 		isNewNote: true,
+		content: "",
 	},
 	setNoteMutation: (input) => set(() => ({ noteMutation: input })),
 
