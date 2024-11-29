@@ -35,6 +35,7 @@ export default function ItemControls({ note }: { note: Note }) {
 			title: note.title,
 			subject: note.subject,
 			content: note.content,
+			type: note.type,
 			id: note.id,
 			isNewNote: false,
 		});

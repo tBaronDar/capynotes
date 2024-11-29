@@ -10,15 +10,17 @@ import { ArrayContent } from "@/data/types";
 
 export default function NewChecklist() {
 	const [itemContent, setItemContent] = useState("");
-	const [arrayContent, setArrayContent] = useState<ArrayContent[]>([]);
 	const isEditing = useNoteStore((state) => state.isEditing);
+
+	const checklistArray = useNoteStore((state) => state.checklistItems);
+	const setChecklistArray = useNoteStore((state) => state.setChecklistItems);
 
 	const newNote = useNoteStore((state) => state.noteMutation);
 	const setNewNote = useNoteStore((state) => state.setNoteMutation);
 
 	useEffect(() => {
 		const inputArray = newNote.content!.split("[/]");
-		console.log("Content: ", newNote.content);
+
 		let arrayContentHelper: ArrayContent[] = [];
 
 		inputArray.forEach((item) => {
@@ -29,7 +31,7 @@ export default function NewChecklist() {
 				});
 			}
 		});
-		setArrayContent(arrayContentHelper);
+		setChecklistArray(arrayContentHelper);
 	}, [newNote.content]);
 
 	if (!isEditing) {
@@ -51,11 +53,11 @@ export default function NewChecklist() {
 			...clickedItem,
 			isChecked: !clickedItem.isChecked,
 		};
-		const updatedArray = arrayContent.map((item) =>
+		const updatedArray = checklistArray.map((item) =>
 			item.content === clickedItem.content ? newItem : item
 		);
 
-		setArrayContent(updatedArray);
+		setChecklistArray(updatedArray);
 		console.log("updatedArray ", updatedArray);
 		//turn array to string
 		let updatedString = "";
@@ -64,9 +66,7 @@ export default function NewChecklist() {
 			updatedString = updatedString + prosimo + item.content + "[/]";
 		});
 		setNewNote({ ...newNote, content: updatedString });
-		console.log("the string ", updatedString);
 	}
-	console.log(arrayContent);
 
 	if (newNote.type === "CHECKLIST") {
 		return (
@@ -91,8 +91,8 @@ export default function NewChecklist() {
 					<p className={styles.type}>{newNote?.type}</p>
 				</div>
 				<ul className={styles.checklist}>
-					{arrayContent.length > 0 &&
-						arrayContent.map((item) => (
+					{checklistArray.length > 0 &&
+						checklistArray.map((item) => (
 							<li key={item.content}>
 								<input
 									type="checkbox"

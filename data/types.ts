@@ -25,6 +25,9 @@ export interface NotesStore {
 	notes: Note[];
 	setNotes: (input: Note[]) => void;
 
+	checklistItems: ArrayContent[];
+	setChecklistItems: (input: ArrayContent[]) => void;
+
 	isEditing: boolean;
 	setIsEditing: (input: boolean) => void;
 

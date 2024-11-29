@@ -30,3 +30,9 @@
 	text-align: justify;
 	overflow: hidden;
 }
+
+.checklist-item {
+	display: flex;
+	gap: 1rem;
+	padding-left: 2rem;
+}

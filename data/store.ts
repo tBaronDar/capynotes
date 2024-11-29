@@ -5,6 +5,9 @@ export const useNoteStore = create<NotesStore>((set) => ({
 	notes: [],
 	setNotes: (input) => set({ notes: input }),
 
+	checklistItems: [],
+	setChecklistItems: (input) => set(() => ({ checklistItems: input })),
+
 	//makes the form appear
 	isEditing: false,
 	setIsEditing: (input) => set(() => ({ isEditing: input })),
