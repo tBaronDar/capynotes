@@ -9,11 +9,10 @@ import { trpc } from "./client";
 //change to select enviroment
 let batchUrl: string;
 if (process.env.NODE_ENV === "development") {
-	batchUrl = process.env.TRPC_PROVIDER_URL_DEV!;
+	batchUrl = "http://localhost:3000/api/trpc";
 } else if (process.env.NODE_ENV === "production") {
-	batchUrl = process.env.TRPC_PROVIDER_URL_PROD!;
+	batchUrl = "https://capynotes.vercel.app/api/trpc";
 }
-
 // console.log(process.env.NODE_ENV, batchUrl!);
 
 export default function Provider({ children }: { children: React.ReactNode }) {

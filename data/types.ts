@@ -31,6 +31,9 @@ export interface NotesStore {
 	isEditing: boolean;
 	setIsEditing: (input: boolean) => void;
 
+	isAlert: boolean;
+	setIsAlert: (input: boolean) => void;
+
 	noteMutation: NoteMutation;
 	setNoteMutation: (input: NoteMutation) => void;
 

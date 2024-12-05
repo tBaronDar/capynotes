@@ -12,6 +12,10 @@ export const useNoteStore = create<NotesStore>((set) => ({
 	isEditing: false,
 	setIsEditing: (input) => set(() => ({ isEditing: input })),
 
+	//makes alarm popup appear
+	isAlert: false,
+	setIsAlert: (input) => set({ isAlert: input }),
+
 	//state of the input form
 	noteMutation: {
 		isNewNote: true,

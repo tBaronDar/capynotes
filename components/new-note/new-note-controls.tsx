@@ -9,10 +9,11 @@ import { trpc } from "@/app/_trpc/client";
 export default function NewNoteControls() {
 	const trpcUtils = trpc.useUtils();
 	const setIsEditing = useNoteStore((state) => state.setIsEditing);
-	const userData = useUserStore((state) => state.userData);
-
+	const setShowAlarm = useNoteStore((state) => state.setIsAlert);
 	const setNoteData = useNoteStore((state) => state.setNoteMutation);
 	const noteInputData = useNoteStore((state) => state.noteMutation);
+
+	const userData = useUserStore((state) => state.userData);
 
 	const createNote = trpc.createNote.useMutation({
 		onSettled: () => trpcUtils.getAllNotes.refetch(),
@@ -24,6 +25,7 @@ export default function NewNoteControls() {
 				subject: "",
 			});
 			setIsEditing(false);
+			setShowAlarm(false);
 		},
 	});
 
@@ -37,6 +39,7 @@ export default function NewNoteControls() {
 				subject: "",
 			});
 			setIsEditing(false);
+			setShowAlarm(false);
 		},
 	});
 
@@ -44,6 +47,10 @@ export default function NewNoteControls() {
 		if (userData && noteInputData) {
 			const { title, subject, type, content } = noteInputData;
 			const userId = userData.id;
+
+			if (title === "" || subject === "" || content === "") {
+				setShowAlarm(true);
+			}
 
 			if (title && subject && type && content) {
 				createNote.mutate({
@@ -60,6 +67,10 @@ export default function NewNoteControls() {
 	const editNoteHandler = () => {
 		if (noteInputData) {
 			const { title, subject, content, id } = noteInputData;
+
+			if (title === "" || subject === "" || content === "") {
+				setShowAlarm(true);
+			}
 
 			if (title && subject && content && id) {
 				updateNote.mutate({
@@ -80,6 +91,7 @@ export default function NewNoteControls() {
 			subject: "",
 		});
 		setIsEditing(false);
+		setShowAlarm(false);
 	};
 
 	return (
@@ -123,7 +135,7 @@ export default function NewNoteControls() {
 			)}
 
 			<button onClick={cancelNoteHandler}>
-				{/* btn delete  */}
+				{/* btn delete / cancel */}
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"

@@ -13,6 +13,7 @@ import { User } from "@prisma/client";
 import { createId } from "@paralleldrive/cuid2";
 import NewChecklist from "@/components/new-note/new-checklist";
 import AuthControls from "@/components/auth/controls";
+import Popup from "@/components/popup/popup";
 
 export default async function HomePage() {
 	const session = await auth();
@@ -75,6 +76,7 @@ export default async function HomePage() {
 			{session?.user && <NoteList initialNotes={notes} userData={user} />}
 
 			{session?.user && <CreateNoteBtn />}
+			<Popup />
 		</main>
 	);
 }
