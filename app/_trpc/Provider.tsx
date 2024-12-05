@@ -9,9 +9,9 @@ import { trpc } from "./client";
 //change to select enviroment
 let batchUrl: string;
 if (process.env.NODE_ENV === "development") {
-	batchUrl = "http://localhost:3000/api/trpc";
+	batchUrl = process.env.TRPC_PROVIDER_URL_DEV!;
 } else if (process.env.NODE_ENV === "production") {
-	batchUrl = "https://capynotes.vercel.app/api/trpc";
+	batchUrl = process.env.TRPC_PROVIDER_URL_PROD!;
 }
 
 // console.log(process.env.NODE_ENV, batchUrl!);

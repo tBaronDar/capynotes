@@ -12,6 +12,7 @@ import { User } from "@prisma/client";
 
 import { createId } from "@paralleldrive/cuid2";
 import NewChecklist from "@/components/new-note/new-checklist";
+import AuthControls from "@/components/auth/controls";
 
 export default async function HomePage() {
 	const session = await auth();
@@ -22,6 +23,7 @@ export default async function HomePage() {
 				<MainNavigation />
 				<div className={styles.auxilary}>
 					<p>Login in to see notes...</p>
+					<AuthControls />
 				</div>
 			</main>
 		);
