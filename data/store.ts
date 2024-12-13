@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { NotesStore, UserStore } from "./types";
+import { FilterStore, NotesStore, UserStore } from "./types";
 
 export const useNoteStore = create<NotesStore>((set) => ({
 	notes: [],
@@ -30,4 +30,11 @@ export const useNoteStore = create<NotesStore>((set) => ({
 export const useUserStore = create<UserStore>((set) => ({
 	userData: null,
 	setUserData: (input) => set(() => ({ userData: input })),
+}));
+
+export const useFilterStore = create<FilterStore>((set) => ({
+	subjectFilter: "",
+	typeFilter: "",
+	setSubjectFilter: (input) => set({ subjectFilter: input }),
+	setTypeFilter: (input) => set({ typeFilter: input }),
 }));

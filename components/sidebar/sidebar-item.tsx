@@ -5,8 +5,7 @@ import Link from "next/link";
 import { NoteQuery, NotesMetaProps } from "@/data/types";
 
 import styles from "./sidebar-item.module.css";
-import { useNoteStore } from "@/data/store";
-import { Note } from "@prisma/client";
+import { useNoteStore, useFilterStore } from "@/data/store";
 
 export default function NoteQueries({
 	title,
@@ -23,11 +22,13 @@ export default function NoteQueries({
 	);
 	const [uniqueDataArray, setUniqueDataArray] = useState<string[]>([]);
 
+	const setSubject = useFilterStore((state) => state.setSubjectFilter);
+	const subject = useFilterStore((state) => state.subjectFilter);
+	const setType = useFilterStore((state) => state.setTypeFilter);
+	const type = useFilterStore((state) => state.typeFilter);
+
 	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
 	const noteMutation = useNoteStore((state) => state.noteMutation);
-
-	const setQuery = useNoteStore((state) => state.setNoteQuery);
-	const noteQuery = useNoteStore((state) => state.noteQuery);
 
 	const selectionHelperArray: (string | undefined)[] = [];
 	const uniqueDataHelperArray: string[] = [];
@@ -62,15 +63,19 @@ export default function NoteQueries({
 			[queryType]: data[selectedListItem].metaData,
 		});
 
-		//set query state here
-		if (noteQuery) {
-			if (noteQuery[queryType] === data[selectedListItem].metaData) {
-				setQuery({ ...noteQuery, [queryType]: undefined });
+		//set query term
+		if (queryType === "subject") {
+			if (subject === data[selectedListItem].metaData) {
+				setSubject("");
 			} else {
-				setQuery({
-					...noteQuery,
-					[queryType]: data[selectedListItem].metaData,
-				});
+				setSubject(data[selectedListItem].metaData);
+			}
+		}
+		if (queryType === "type") {
+			if (type === data[selectedListItem].metaData) {
+				setType("");
+			} else {
+				setType(data[selectedListItem].metaData);
 			}
 		}
 	}

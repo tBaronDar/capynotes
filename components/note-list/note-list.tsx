@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 
 import NoteItem from "./note-item";
-
-import styles from "./note-list.module.css";
+import { useFilterStore, useNoteStore, useUserStore } from "@/data/store";
 import { Note, User } from "@prisma/client";
-import { useNoteStore, useUserStore } from "@/data/store";
 import { trpc } from "@/app/_trpc/client";
 import { serverClient } from "@/app/_trpc/serverClient";
+
+import styles from "./note-list.module.css";
 
 export default function NoteList({
 	initialNotes,
@@ -19,9 +19,12 @@ export default function NoteList({
 	const [notesToShow, setNotesToShow] = useState<Note[]>([]);
 
 	const setUser = useUserStore((state) => state.setUserData);
+
 	const setNotes = useNoteStore((state) => state.setNotes);
 	const notes = useNoteStore((state) => state.notes);
-	const queryTerm = useNoteStore((state) => state.noteQuery);
+
+	const subjectFilter = useFilterStore((state) => state.subjectFilter);
+	const typeFilter = useFilterStore((state) => state.typeFilter);
 
 	const getNotes = trpc.getAllNotes.useQuery(
 		{ authorId: userData?.id! },
@@ -40,39 +43,25 @@ export default function NoteList({
 		});
 
 		//filter notes according to aside input
-		if (queryTerm) {
-			// console.log(queryTerm);
-			const { subject, type } = queryTerm;
 
-			let arrayHelper1;
-			if (subject) {
-				arrayHelper1 = notesDb.filter((note) => subject === note.subject);
-			} else {
-				arrayHelper1 = notesDb;
-			}
+		const filteredNotes = notes.filter((note) => {
+			const matchesType = typeFilter === note.type;
+			const matchesSubject =
+				subjectFilter === note.subject || subjectFilter === "";
 
-			let arrayHelper2;
-			if (type && arrayHelper1) {
-				arrayHelper2 = arrayHelper1.filter((note) => type === note.type);
-			} else {
-				arrayHelper2 = arrayHelper1;
-			}
+			return matchesType || matchesSubject;
+		});
+		console.log(filteredNotes);
 
-			//newer fist
-			arrayHelper2.sort((a, b) => {
-				const dateA = new Date(a.updatedAt).getTime();
-				const dateB = new Date(b.updatedAt).getTime();
-				return dateB - dateA;
-			});
+		//newer fist
+		filteredNotes.sort((a, b) => {
+			const dateA = new Date(a.updatedAt).getTime();
+			const dateB = new Date(b.updatedAt).getTime();
+			return dateB - dateA;
+		});
 
-			notesDb.sort((a, b) => {
-				const dateA = new Date(a.updatedAt).getTime();
-				const dateB = new Date(b.updatedAt).getTime();
-				return dateB - dateA;
-			});
-			setNotesToShow(arrayHelper2 || notesDb);
-		}
-	}, [notesDb, userData, queryTerm]);
+		setNotesToShow(filteredNotes);
+	}, [notesDb, userData]);
 
 	// console.log("get userdata", getUser.data);
 	if (notesToShow.length < 1) {

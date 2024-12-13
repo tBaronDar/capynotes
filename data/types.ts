@@ -1,6 +1,7 @@
 import { Note, User } from "@prisma/client";
 
 export interface NotesMetaProps {
+	///
 	metaData: string;
 	noteId: string;
 }
@@ -10,6 +11,7 @@ export interface NoteMutation extends Partial<Note> {
 }
 
 export interface NoteQuery {
+	////
 	subject?: string;
 	type?: string;
 }
@@ -45,4 +47,12 @@ export interface NotesStore {
 export interface UserStore {
 	userData: User | null;
 	setUserData: (input: User) => void;
+}
+
+//Filter
+export interface FilterStore {
+	subjectFilter: string;
+	typeFilter: string;
+	setSubjectFilter: (input: string) => void;
+	setTypeFilter: (input: string) => void;
 }
