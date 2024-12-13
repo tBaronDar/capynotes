@@ -42,8 +42,9 @@ export default function NoteList({
 		});
 	}, [notesDb, userData]);
 	//filter notes according to aside input
+	console.log(typeFilter);
 	const filteredNotes = notes.filter((note) => {
-		const matchesType = typeFilter === "CHECKLIST" || "TEXTNOTE" || "";
+		const matchesType = typeFilter === note.type || typeFilter === "";
 		const matchesSubject =
 			subjectFilter === note.subject || subjectFilter === "";
 

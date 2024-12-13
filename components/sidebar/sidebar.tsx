@@ -5,7 +5,6 @@ import NoteQueries from "./sidebar-item";
 
 import styles from "./sidebar.module.css";
 import { useNoteStore } from "@/data/store";
-import { NotesMetaProps } from "@/data/types";
 
 export default function Sidebar() {
 	const notes = useNoteStore((state) => state.notes);

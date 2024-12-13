@@ -9,7 +9,15 @@ export default async function MainNavigation() {
 	const session = await auth();
 	return (
 		<header className={styles["main-navigation"]}>
-			<div>LOGO</div>
+			<div className={styles.logo}>
+				<Image
+					fill
+					alt="Logo"
+					src={
+						"https://themis-generic-images.s3.eu-north-1.amazonaws.com/capynotesNoBackground.png"
+					}
+				/>
+			</div>
 			{!session?.user && <h1>CapyNotes</h1>}
 			{session?.user && <h1>Welcome to CapyNotes {session?.user?.name}</h1>}
 			{session?.user?.image && session.user.name && (

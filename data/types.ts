@@ -1,11 +1,5 @@
 import { Note, User } from "@prisma/client";
 
-export interface NotesMetaProps {
-	///
-	metaData: string;
-	noteId: string;
-}
-
 export interface NoteMutation extends Partial<Note> {
 	isNewNote: boolean;
 }
@@ -38,9 +32,6 @@ export interface NotesStore {
 
 	noteMutation: NoteMutation;
 	setNoteMutation: (input: NoteMutation) => void;
-
-	noteQuery: NoteQuery | undefined;
-	setNoteQuery: (input: NoteQuery) => void;
 }
 
 //Users

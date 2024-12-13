@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { NoteQuery, NotesMetaProps } from "@/data/types";
+import { NoteQuery } from "@/data/types";
 
 import styles from "./sidebar-item.module.css";
 import { useNoteStore, useFilterStore } from "@/data/store";
@@ -40,7 +40,7 @@ export default function NoteQueries({
 	}, [selected]);
 
 	function clickHandler(selection: string, selectedIndex: number) {
-		setSelected(selection);
+		setSelected((prevState) => (prevState === selection ? "" : selection));
 		//set query term
 		if (queryType === "subject") {
 			if (subject === selection) {
