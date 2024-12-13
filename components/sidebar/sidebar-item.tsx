@@ -13,85 +13,60 @@ export default function NoteQueries({
 	queryType,
 }: {
 	title: string;
-	data: NotesMetaProps[];
+	data: string[];
 	queryType: keyof NoteQuery;
 }) {
-	const [selected, setSelected] = useState<number>();
+	const [selected, setSelected] = useState<string>();
 	const [selectedArray, setSelectedArray] = useState<(string | undefined)[]>(
 		[]
 	);
-	const [uniqueDataArray, setUniqueDataArray] = useState<string[]>([]);
 
 	const setSubject = useFilterStore((state) => state.setSubjectFilter);
 	const subject = useFilterStore((state) => state.subjectFilter);
 	const setType = useFilterStore((state) => state.setTypeFilter);
 	const type = useFilterStore((state) => state.typeFilter);
 
-	const setNoteMutation = useNoteStore((state) => state.setNoteMutation);
-	const noteMutation = useNoteStore((state) => state.noteMutation);
-
 	const selectionHelperArray: (string | undefined)[] = [];
-	const uniqueDataHelperArray: string[] = [];
 
 	useEffect(() => {
 		data.forEach((item) => {
-			if (uniqueDataHelperArray.indexOf(item.metaData) === -1) {
-				return uniqueDataHelperArray.push(item.metaData);
-			}
-		});
-
-		setUniqueDataArray(uniqueDataHelperArray);
-
-		uniqueDataHelperArray.forEach((item) => {
-			if (uniqueDataHelperArray.indexOf(item) === selected) {
+			if (selected === item) {
 				selectionHelperArray.push("selected-item");
 			} else {
 				selectionHelperArray.push(undefined);
 			}
 		});
 		setSelectedArray(selectionHelperArray);
-	}, [data, selected]);
+	}, [selected]);
 
-	function clickHandler(selectedListItem: number) {
-		if (selected === selectedListItem) {
-			setSelected(undefined);
-		} else {
-			setSelected(selectedListItem);
-		}
-		setNoteMutation({
-			...noteMutation,
-			[queryType]: data[selectedListItem].metaData,
-		});
-
+	function clickHandler(selection: string, selectedIndex: number) {
+		setSelected(selection);
 		//set query term
 		if (queryType === "subject") {
-			if (subject === data[selectedListItem].metaData) {
+			if (subject === selection) {
 				setSubject("");
 			} else {
-				setSubject(data[selectedListItem].metaData);
+				setSubject(selection);
 			}
 		}
 		if (queryType === "type") {
-			if (type === data[selectedListItem].metaData) {
+			if (type === selection) {
 				setType("");
-			} else {
-				setType(data[selectedListItem].metaData);
+			} else if (type === "" || type !== selection) {
+				setType(selection);
 			}
 		}
 	}
 
-	// console.log("Unique array", uniqueDataArray);
 	return (
 		<div className={styles["note-options"]}>
 			<h3>{title}</h3>
 			<ul>
-				{uniqueDataArray.map((item) => (
+				{data.map((item) => (
 					<li key={item}>
 						<Link
-							className={
-								styles[`${selectedArray[uniqueDataArray.indexOf(item)]}`]
-							}
-							onClick={clickHandler.bind(null, uniqueDataArray.indexOf(item))}
+							className={styles[`${selectedArray[data.indexOf(item)]}`]}
+							onClick={clickHandler.bind(null, item, data.indexOf(item))}
 							href={"#"}>
 							{item}
 						</Link>

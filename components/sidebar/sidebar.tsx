@@ -10,25 +10,19 @@ import { NotesMetaProps } from "@/data/types";
 export default function Sidebar() {
 	const notes = useNoteStore((state) => state.notes);
 
-	//Types array
-	const noteTypes: NotesMetaProps[] = [];
+	const typesSet = new Set<string>();
+	const subjectsSet = new Set<string>();
 
-	notes.map((note) => {
-		return noteTypes.push({
-			metaData: note.type,
-			noteId: note.id,
-		});
+	notes.forEach((note) => {
+		typesSet.add(note.type);
+		subjectsSet.add(note.subject);
 	});
 
-	//Subjects array
-	const noteSubjects: NotesMetaProps[] = [];
-
-	notes.map((note) => {
-		return noteSubjects.push({ metaData: note.subject, noteId: note.id });
-	});
+	const subjectsArray = Array.from(subjectsSet);
+	const typesArray = Array.from(typesSet);
 
 	//if no notes...
-	if (noteSubjects.length < 1 || noteTypes.length < 1) {
+	if (subjectsArray.length < 1 || typesArray.length < 1) {
 		return (
 			<aside>
 				<div></div>
@@ -40,9 +34,9 @@ export default function Sidebar() {
 			<NoteQueries
 				title="Note Subjects"
 				queryType={"subject"}
-				data={noteSubjects}
+				data={subjectsArray}
 			/>
-			<NoteQueries title="Note Types" queryType={"type"} data={noteTypes} />
+			<NoteQueries title="Note Types" queryType={"type"} data={typesArray} />
 			{/* <NoteTypes title="Starred Notes" data={["Checklist", "Text"]} key={2} /> */}
 		</aside>
 	);
